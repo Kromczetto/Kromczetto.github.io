@@ -6,7 +6,6 @@ const app = express()
 const PORT = 8081
 
 app.use(express.json())
-// app.use('/', machineRoutes)
 app.use('/', router());
 
 mongoose.connect("mongodb+srv://admin:admin@cluster0.duou8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
