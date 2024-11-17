@@ -1,14 +1,27 @@
-import express from 'express'
+import express, { Request, Response, NextFunction } from 'express';
+import { createMachine } from '../models/MachineSchema';
+import { RequestHandler } from 'express';
 
-export const adder = async (req: express.Request, res: express.Response) => {
+export const adder: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { machineName, owner, parm1, parm2, parm3, parm4} = req.body
-        if(!machineName || !owner || !parm1 || !parm2 || !parm3 || parm4) {
-            return res.sendStatus(400)
+
+        const { machineName, owner, parm1, parm2, parm3, parm4 } = req.body;
+
+        if (!machineName || !owner || !parm1 || !parm2 || !parm3 || !parm4) {
+            res.status(400).json({ error: 'Missing required fields' });
+            return;
         }
-        
-    } catch(error) {
-        console.log(error)
-        return res.sendStatus(400)
+        const machine = await createMachine({
+            machineName,
+            owner,
+            parm1,
+            parm2,
+            parm3,
+            parm4,
+        });
+        res.status(201).json(machine);
+    } catch (error) {
+        console.error('Error in adder:', error);
+        next(error); 
     }
-}
+};
