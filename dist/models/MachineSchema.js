@@ -3,11 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateMachineById = exports.deleteMachineById = exports.createMachine = exports.getMachineByOwner = exports.getMachines = exports.MachineModel = void 0;
+exports.updateMachineById = exports.deleteMachineById = exports.createMachine = exports.findByMachineId = exports.getMachines = exports.MachineModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const MachineSchema = new mongoose_1.default.Schema({
     machineName: { type: String, required: true },
-    owner: { type: String, required: true },
     parm1: { type: String, required: true },
     parm2: { type: String, required: false },
     parm3: { type: String, required: false },
@@ -16,11 +15,13 @@ const MachineSchema = new mongoose_1.default.Schema({
 exports.MachineModel = mongoose_1.default.model('Machine', MachineSchema);
 const getMachines = () => exports.MachineModel.find();
 exports.getMachines = getMachines;
-const getMachineByOwner = (owner) => exports.MachineModel.findOne({ owner });
-exports.getMachineByOwner = getMachineByOwner;
+const findByMachineId = (id) => exports.MachineModel.findById({ _id: id });
+exports.findByMachineId = findByMachineId;
 const createMachine = (values) => new exports.MachineModel(values).save().then((machine) => machine.toObject());
 exports.createMachine = createMachine;
 const deleteMachineById = (id) => exports.MachineModel.findOneAndDelete({ _id: id });
 exports.deleteMachineById = deleteMachineById;
-const updateMachineById = (id, values) => exports.MachineModel.findByIdAndUpdate(id, values, { new: true });
+const updateMachineById = (id, values) => exports.MachineModel.findByIdAndUpdate(id, values);
 exports.updateMachineById = updateMachineById;
+// export const updateMachineById = (id: string, values: Record<string, any>) =>
+//     MachineModel.findByIdAndUpdate(id, values, { new: true });

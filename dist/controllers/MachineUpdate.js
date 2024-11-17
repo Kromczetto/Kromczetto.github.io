@@ -9,27 +9,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.adder = void 0;
+exports.updateMachine = void 0;
 const MachineSchema_1 = require("../models/MachineSchema");
-const adder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const updateMachine = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { id } = req.params;
         const { machineName, parm1, parm2, parm3, parm4 } = req.body;
         if (!machineName || !parm1 || !parm2 || !parm3 || !parm4) {
             res.status(400).json({ error: 'Missing required fields' });
             return;
         }
-        const machine = yield (0, MachineSchema_1.createMachine)({
-            machineName,
-            parm1,
-            parm2,
-            parm3,
-            parm4,
-        });
-        res.status(201).json(machine);
+        const machine = yield (0, MachineSchema_1.findByMachineId)(id);
+        machine.machineName = machineName;
+        machine.parm1 = parm1;
+        machine.parm2 = parm2;
+        machine.parm3 = parm3;
+        machine.parm4 = parm4;
+        yield machine.save();
+        res.status(200).json(machine);
     }
     catch (error) {
-        console.error('Error in adder:', error);
+        console.log('Error in deleting machine', error);
         next(error);
     }
 });
-exports.adder = adder;
+exports.updateMachine = updateMachine;
