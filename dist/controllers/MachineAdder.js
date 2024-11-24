@@ -13,14 +13,13 @@ exports.adder = void 0;
 const MachineSchema_1 = require("../models/MachineSchema");
 const adder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { machineName, itemID, parm1, parm2, parm3, parm4 } = req.body;
-        if (!machineName || !itemID || !parm1 || !parm2 || !parm3 || !parm4) {
+        const { machineName, parm1, parm2, parm3, parm4 } = req.body;
+        if (!machineName || !parm1 || !parm2 || !parm3 || !parm4) {
             res.status(400).json({ error: 'Missing required fields' });
             return;
         }
         const machine = yield (0, MachineSchema_1.createMachine)({
             machineName,
-            itemID,
             parm1,
             parm2,
             parm3,

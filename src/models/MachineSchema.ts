@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 const MachineSchema = new mongoose.Schema({
     machineName: { type: String, required: true },
-    itemID: { type: String, requierd: true },
     parm1: { type: String, required: true },
     parm2: { type: String, required: false },
     parm3: { type: String, required: false },
