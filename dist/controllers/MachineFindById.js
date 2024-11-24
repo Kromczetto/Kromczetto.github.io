@@ -14,7 +14,7 @@ const MachineSchema_1 = require("../models/MachineSchema");
 const machineFindById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        (0, exports.updateMachineParametersPeriodically)("673a69193ea4092c2261aa65");
+        (0, exports.updateMachineParametersPeriodically)(id);
         const machines = yield (0, MachineSchema_1.findByMachineId)(id);
         res.status(200).json(machines);
     }
