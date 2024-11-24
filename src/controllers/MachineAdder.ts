@@ -5,14 +5,15 @@ import { RequestHandler } from 'express';
 export const adder: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        const { machineName, parm1, parm2, parm3, parm4 } = req.body
+        const { machineName, itemID, parm1, parm2, parm3, parm4 } = req.body
 
-        if (!machineName || !parm1 || !parm2 || !parm3 || !parm4) {
+        if (!machineName || !itemID || !parm1 || !parm2 || !parm3 || !parm4) {
             res.status(400).json({ error: 'Missing required fields' })
             return
         }
         const machine = await createMachine({
             machineName,
+            itemID,
             parm1,
             parm2,
             parm3,
