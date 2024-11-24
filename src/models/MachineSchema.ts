@@ -17,5 +17,3 @@ export const createMachine = (values: Record<string, any>) =>
 export const deleteMachineById = (id: string) => MachineModel.findOneAndDelete({ _id: id });
 export const updateMachineById = (id: string, values: Record<string, any>) =>
     MachineModel.findByIdAndUpdate(id, values,);
-// export const updateMachineById = (id: string, values: Record<string, any>) =>
-//     MachineModel.findByIdAndUpdate(id, values, { new: true });

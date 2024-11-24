@@ -9,11 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.machineFindById = void 0;
+exports.updateMachineParametersPeriodically = exports.machineFindById = void 0;
 const MachineSchema_1 = require("../models/MachineSchema");
 const machineFindById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
+        (0, exports.updateMachineParametersPeriodically)("673a69193ea4092c2261aa65");
         const machines = yield (0, MachineSchema_1.findByMachineId)(id);
         res.status(200).json(machines);
     }
@@ -23,3 +24,25 @@ const machineFindById = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.machineFindById = machineFindById;
+const updateMachineParametersPeriodically = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const machine = yield (0, MachineSchema_1.findByMachineId)(id);
+        if (!machine) {
+            console.error(`Machine with id ${id} not found.`);
+        }
+        machine.parm1 = randomIntFromInterval(50, 100);
+        machine.parm2 = randomIntFromInterval(0, 10);
+        machine.parm3 = randomIntFromInterval(10, 100);
+        machine.parm4 = randomIntFromInterval(30, 400);
+        yield machine.save();
+        console.log(`Updated machine ${id} with new values.`);
+    }
+    catch (error) {
+        console.error(`Error updating machine ${id}:`, error);
+    }
+});
+exports.updateMachineParametersPeriodically = updateMachineParametersPeriodically;
+function randomIntFromInterval(min, max) {
+    const randomInt = Math.floor(Math.random() * (max - min + 1) + min);
+    return randomInt.toString();
+}
